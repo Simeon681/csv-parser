@@ -14,7 +14,11 @@ class CSVParser:
         self.data = data
 
     def count_rows(self):
-        return len(self.data)
+        rows_len = len(self.data)
+
+        assert rows_len != None, "Rows length should not be None"
+
+        return rows_len
 
     def sum_column(self, column_name):
         total_sum = 0
