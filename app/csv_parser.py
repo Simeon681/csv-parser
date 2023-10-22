@@ -39,7 +39,7 @@ class CSVParser:
         for row in self.data:
             if row[column_name].strip():
                 try:
-                    float(row[column_name]) and float(row[column_name]) >= 0
+                    float(row[column_name]) and float(row[column_name]) >= 0.0
                 except ValueError:
                     return False
         return True
