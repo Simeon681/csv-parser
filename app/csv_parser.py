@@ -16,9 +16,33 @@ class CSVParser:
     def count_rows(self):
         rows_len = len(self.data)
 
+        assert rows_len == 3, "Rows length should not be greater or less than 3"
         assert rows_len != None, "Rows length should not be None"
 
         return rows_len
+    
+    def count_columns(self):
+        columns_len = len(self.data[0].keys())
+
+        assert columns_len == 3, "Columns length should not be greater or less than 3"
+        assert columns_len != None, "Columns length should not be None"
+
+        return columns_len
+    
+    def column_exists(self, column_name):
+        for row in self.data:
+            if column_name in row:
+                return True
+        return False
+    
+    def column_is_numeric(self, column_name):
+        for row in self.data:
+            if row[column_name].strip():
+                try:
+                    float(row[column_name]) and float(row[column_name]) >= 0
+                except ValueError:
+                    return False
+        return True
 
     def sum_column(self, column_name):
         total_sum = 0
@@ -26,7 +50,7 @@ class CSVParser:
             try:
                 total_sum += float(row[column_name])
             except ValueError:
-                pass
+                raise ValueError("Column should contain only numeric values")
         return total_sum
 
     def find_min(self, column_name):
@@ -38,7 +62,7 @@ class CSVParser:
         return minimum
 
     def find_max(self, column_name):
-        values = [float(row[column_name]) for row in self.data if row[column_name].strip()]
+        values = [float(row[column_name]) for row in self.data  if row[column_name].strip()]
         maximum = max(values)
 
         assert maximum != None, "Maximum should not be None"
