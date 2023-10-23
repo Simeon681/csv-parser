@@ -43,6 +43,18 @@ def test_parse_csv_with_fixture(mocker, mock_open):
 def parser(mocker, mock_open):
     return CSVParser(parse_csv('file_path.csv'))
 
+def test_parse_csv_with_invalid_file():
+    with pytest.raises(ValueError) as e:
+        parse_csv('file_path.txt')
+
+    assert e.type == ValueError
+
+def test_parse_csv_with_empty_file():
+    with pytest.raises(ValueError) as e:
+        parse_csv('')
+
+    assert e.type == ValueError
+
 def test_count_rows(parser):
     assert parser.count_rows() == 3
 
@@ -76,11 +88,29 @@ def test_column_exists(parser):
     assert parser.column_exists("City") == True
     assert parser.column_exists("Country") == False
 
-def column_is_numeric(parser):
+def test_column_exists_with_empty_column_name(parser):
+    with pytest.raises(ValueError) as e:
+        parser.column_exists("")
+
+    assert e.type == ValueError
+
+def test_column_is_numeric(parser):
     assert parser.column_is_numeric("Age") == True
+
+def test_column_is_numeric_with_empty_column_name(parser):
+    with pytest.raises(ValueError) as e:
+        parser.column_is_numeric("")
+
+    assert e.type == ValueError
 
 def test_sum_column(parser):
     assert parser.sum_column("Age") == 99.0
+
+def test_sum_column_with_empty_column_name(parser):
+    with pytest.raises(ValueError) as e:
+        parser.sum_column("")
+
+    assert e.type == ValueError
 
 def test_sum_column_throws_exception(parser):
     with pytest.raises(ValueError) as e:

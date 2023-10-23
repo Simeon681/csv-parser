@@ -3,6 +3,10 @@ import statistics
 
 def parse_csv(file_path):
     data = []
+    if not file_path.endswith('.csv'):
+        raise ValueError("File should be .csv")
+    elif not file_path:
+        raise ValueError("File path should not be empty")  
     with open(file_path, 'r') as csvfile:
         csv_reader = csv.DictReader(csvfile)
         for row in csv_reader:
@@ -30,12 +34,16 @@ class CSVParser:
         return columns_len
     
     def column_exists(self, column_name):
+        if not column_name:
+            raise ValueError("Column name should not be empty")
         for row in self.data:
             if column_name in row:
                 return True
         return False
     
     def column_is_numeric(self, column_name):
+        if not column_name:
+            raise ValueError("Column name should not be empty") 
         for row in self.data:
             if row[column_name].strip():
                 try:
@@ -45,6 +53,8 @@ class CSVParser:
         return True
 
     def sum_column(self, column_name):
+        if not column_name:
+            raise ValueError("Column name should not be empty")
         total_sum = 0
         for row in self.data:
             try:
