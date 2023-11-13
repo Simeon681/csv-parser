@@ -3,3 +3,5 @@ nox
 coverage
 pytest-mock
 mock
+pytest-benchmark
+bandit
